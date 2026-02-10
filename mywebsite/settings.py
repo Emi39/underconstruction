@@ -156,3 +156,12 @@ CKEDITOR_CONFIGS = {
 # Media files (for uploaded images in editor)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Email settings for contact form
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'popovychvanja@gmail.com'          # ← change to your email
+EMAIL_HOST_PASSWORD = 'lqpc gsel tqdr xapf'        # ← use App Password from Google (not normal password)
+DEFAULT_FROM_EMAIL = 'popovychvanja@gmail.com'

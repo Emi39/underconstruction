@@ -1,54 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ article.title }} - SoftwareCA</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-            line-height: 1.6;
-            color: #333;
-            background: #f9f9f9;
-        }
-        h1 {
-            color: #0066cc;
-            margin-bottom: 10px;
-        }
-        .meta {
-            color: #666;
-            font-size: 0.95em;
-            margin-bottom: 30px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-        }
-        .content {
-            font-size: 1.05em;
-        }
-        .back {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 10px 20px;
-            background: #0066cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .back:hover {
-            background: #0052a3;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
+{% block title %}{{ article.title }} - SoftwareCA{% endblock %}
+
+{% block content %}
     <h1>{{ article.title }}</h1>
     
     <div class="meta">
-        Published: {{ article.pub_date|date:"d F Y" }} 
-        • Last updated: {{ article.updated_at|date:"d F Y" }}
+        Published: {{ article.pub_date|date:"d F Y" }} • Last updated: {{ article.updated_at|date:"d F Y" }}
     </div>
 
     <div class="content">
@@ -56,6 +14,4 @@
     </div>
 
     <a href="{% url 'home' %}" class="back">← Back to all articles</a>
-
-</body>
-</html>
+{% endblock %}

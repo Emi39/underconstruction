@@ -1,45 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4X8BE2KV9B"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+{% extends 'base.html' %}
 
-  gtag('config', 'G-4X8BE2KV9B');
-</script>
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Our exciting new website is under construction. Follow us on instagram for updates!">    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoftwareCA - Free Software Alternatives & Reviews</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-        h1 { text-align: center; color: #333; }
-        .articles { max-width: 900px; margin: 0 auto; }
-        .article { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .article h2 { margin-top: 0; color: #0066cc; }
-        .date { color: #777; font-size: 0.9em; }
-    </style>
-</head>
-<body>
+{% block title %}Free Software Alternatives & Reviews - SoftwareCA{% endblock %}
 
-    <h1>SoftwareCA</h1>
-    <p style="text-align:center;">Free software alternatives, reviews and tips (Canada focus)</p>
+{% block content %}
+    <h1 style="text-align: center; margin: 2rem 0; color: var(--accent);">Free software alternatives, reviews and tips (Canada focus)</h1>
 
     <div class="articles">
         {% for article in articles %}
-            <div class="article">
-                <h2>{{ article.title }}</h2>
-                <p class="date">Published: {{ article.pub_date|date:"d M Y" }}</p>
-                <p>{{ article.content|striptags|truncatewords:50 }}...</p>
-                <a href="{% url 'article_detail' slug=article.slug %}">Read more →</a>
+            <div class="article-card">
+                <div class="article-content">
+                    <h2 class="article-title">{{ article.title }}</h2>
+                    <p class="article-date">Published: {{ article.pub_date|date:"d M Y" }}</p>
+                    <p class="article-excerpt">{{ article.content|striptags|truncatewords:40 }}</p>
+                    <a href="{% url 'article_detail' slug=article.slug %}" class="read-more">Read more →</a>
+                </div>
             </div>
         {% empty %}
-            <p style="text-align:center;">No articles yet. Add some in admin!</p>
+            <p style="text-align:center; grid-column: 1 / -1;">No articles yet — add some in admin!</p>
         {% endfor %}
     </div>
-
-</body>
-</html>
+{% endblock %}

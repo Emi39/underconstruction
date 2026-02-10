@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - SoftwareCA{% endblock %}
+
+{% block content %}
+    <div style="max-width: 700px; margin: 0 auto; padding: 2rem 1rem;">
+        <h1>Contact Us</h1>
+        <p>Have questions about software alternatives, suggestions for reviews, or just want to say hi? Drop us a message!</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div style="padding: 1rem; margin: 1rem 0; border-radius: 8px; background: #d1fae5; color: #065f46; border-left: 4px solid #10b981;">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div style="padding: 1rem; margin: 1rem 0; border-radius: 8px; background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444;">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            {% csrf_token %}
+
+            <div>
+                <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Your Name</label>
+                <input type="text" id="name" name="name" required 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; background: #ffffff; color: #1f2937;">
+            </div>
+
+            <div>
+                <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email Address</label>
+                <input type="email" id="email" name="email" required 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; background: #ffffff; color: #1f2937;">
+            </div>
+
+            <div>
+                <label for="message" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Message</label>
+                <textarea id="message" name="message" rows="6" required 
+                          style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; background: #ffffff; color: #1f2937; resize: vertical;"></textarea>
+            </div>
+
+            <button type="submit" style="
+                background: #3b82f6;
+                color: white;
+                padding: 0.75rem 1.5rem;
+                border: none;
+                border-radius: 6px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s;
+            ">
+                Send Message
+            </button>
+        </form>
+    </div>
+{% endblock %}
