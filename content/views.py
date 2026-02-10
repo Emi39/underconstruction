@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Article
 
-def home(request):
-    context = {
-        'message': "Something great is coming soon – now powered by Django!",
-        'instagram': "Follow us on Instagram"  # or make dynamic later
-    }
-    return render(request, 'index.html', context)
+def article_detail(request, slug):
+    article = get_object_or_404(
+        Article,
+        slug=slug,
+        is_published=True
+    )
+    return render(request, 'article_detail.html', {
+        'article': article
+    })

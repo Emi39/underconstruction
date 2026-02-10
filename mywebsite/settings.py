@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'content.apps.ContentConfig',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +139,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"   # where images uploaded in editor will go
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',           # or 'Basic', 'Custom' — 'full' gives most options
+        'height': 500,
+        'width': '100%',
+        'filebrowserUploadUrl': '/ckeditor/upload/',
+        'extraPlugins': 'uploadimage',
+    },
+}
+
+# Media files (for uploaded images in editor)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
