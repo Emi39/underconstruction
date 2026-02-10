@@ -31,6 +31,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
     'softwareca.pp.ua',
+    'www.softwareca.pp.ua',
     '.koyeb.app',
     'localhost',
     '127.0.0.1',
