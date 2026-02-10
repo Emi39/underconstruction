@@ -151,6 +151,19 @@
             nav ul { gap: 1rem; justify-content: center; }
             .header-container { flex-direction: column; gap: 1rem; }
         }
+        .back {
+            display: inline-block;
+            padding: 0.8rem 1.6rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+            .back:hover {
+            background: #2563eb;
+        }
     </style>
 </head>
 <body>
@@ -162,9 +175,9 @@
             <nav>
                 <ul>
                     <li><a href="{% url 'home' %}" {% if request.path == '/' %}class="active"{% endif %}>Home</a></li>
-                    <li><a href="#" {% if '/article/' in request.path %}class="active"{% endif %}>Articles</a></li>
+                    <li><a href="{% url 'articles_list' %}">Articles</a></li>
                     <li><a href="{% url 'contact' %}">Contact</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
                 </ul>
             </nav>
         </div>

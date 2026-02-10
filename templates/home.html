@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}SoftwareCA - Free Software Tips & Reviews{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; padding: 6rem 2rem 4rem; max-width: 900px; margin: 0 auto;">
+        <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--accent);">
+            SoftwareCA
+        </h1>
+        
+        <p style="font-size: 1.4rem; margin-bottom: 2rem; color: #94a3b8;">
+            Free software alternatives, honest reviews, and practical tips  
+            <strong>with a Canada focus</strong>
+        </p>
+        
+        <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto 3rem; color: #cbd5e1;">
+            We help you find the best open-source tools, budget-friendly options, and hidden gems  
+            so you can work smarter without spending a fortune.
+        </p>
+        
+        <a href="{% url 'articles_list' %}" style="
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.3s;
+        ">
+            Explore Articles →
+        </a>
+    </div>
+
+    <!-- Optional: teaser of latest articles -->
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 1.5rem;">
+        <h2 style="text-align: center; margin: 4rem 0 2rem; color: var(--text);">Latest Articles</h2>
+        <div class="articles" style="grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));">
+            {% for article in latest_articles %}
+                <div class="article-card">
+                    <div class="article-content">
+                        <h3 class="article-title">{{ article.title }}</h3>
+                        <p class="article-excerpt">{{ article.content|striptags|truncatewords:30 }}</p>
+                        <a href="{% url 'article_detail' slug=article.slug %}" class="read-more">Read more →</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Free Software Alternatives & Reviews - SoftwareCA{% endblock %}
+{% block title %}{{ category.name }} - SoftwareCA{% endblock %}
 
 {% block content %}
     <div style="text-align: center; margin: 3rem 0 2rem;">
-        <h1 style="margin-bottom: 1rem; color: var(--accent);">Free software alternatives, reviews and tips (Canada focus)</h1>
+        <h1 style="margin-bottom: 1rem; color: var(--accent);">
+            {{ category.name }}
+        </h1>
+        {% if category.description %}
+            <p style="max-width: 800px; margin: 0 auto 1.5rem; color: #94a3b8;">
+                {{ category.description }}
+            </p>
+        {% endif %}
         
         <form method="get">
             <select name="category" onchange="this.form.submit()" 
@@ -24,12 +31,9 @@
             <div class="article-card">
                 <div class="article-content">
                     <h2 class="article-title">{{ article.title }}</h2>
-                    {% if article.category %}
-                        <a href="{% url 'category_detail' slug=article.category.slug %}" 
-                        style="background: var(--accent); color: white; padding: 0.4rem 0.9rem; border-radius: 6px; font-size: 0.9rem; display: inline-block; margin-bottom: 0.8rem; text-decoration: none;">
-                        {{ article.category.name }}
-                        </a>
-                    {% endif %}
+                    <span style="background: var(--accent); color: white; padding: 0.4rem 0.9rem; border-radius: 6px; font-size: 0.9rem; display: inline-block; margin-bottom: 0.8rem;">
+                        {{ category.name }}
+                    </span>
                     <p class="article-date">Published: {{ article.pub_date|date:"d M Y" }}</p>
                     <p class="article-excerpt">{{ article.content|striptags|truncatewords:40 }}</p>
                     <a href="{% url 'article_detail' slug=article.slug %}" class="read-more">Read more →</a>
@@ -37,7 +41,7 @@
             </div>
         {% empty %}
             <p style="grid-column: 1 / -1; text-align: center; color: #94a3b8; font-size: 1.1rem;">
-                No articles in this category yet — check back soon!
+                No articles in {{ category.name }} yet — check back soon!
             </p>
         {% endfor %}
     </div>

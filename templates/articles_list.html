@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Articles - SoftwareCA{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; margin: 3rem 0 2rem;">
+        <h1 style="margin-bottom: 1.5rem; color: var(--accent);">All Articles</h1>
+
+        <!-- Filter & Search Container -->
+        <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3rem;">
+            <!-- Category Dropdown -->
+            <form method="get" style="display: inline-block;">
+                <select name="category" onchange="this.form.submit()" 
+                        style="padding: 0.8rem 1.6rem; font-size: 1.1rem; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; min-width: 300px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.slug }}" {% if selected_category == cat.slug %}selected{% endif %}>
+                            {{ cat.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <!-- Search Bar -->
+            <form method="get" style="display: inline-flex; align-items: stretch;">
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search articles..." 
+                       style="padding: 0.8rem 1rem; width: 320px; border: 1px solid var(--border); border-right: none; border-radius: 12px 0 0 12px; background: var(--card); color: var(--text); font-size: 1.1rem;">
+                <button type="submit" style="
+                    padding: 0.8rem 1.5rem;
+                    background: var(--accent);
+                    color: white;
+                    border: none;
+                    border-radius: 0 12px 12px 0;
+                    cursor: pointer;
+                    font-weight: 600;
+                    font-size: 1.1rem;
+                    transition: background 0.2s;
+                ">
+                    Search
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Articles or No Results -->
+    {% if articles %}
+        <div class="articles">
+            {% for article in articles %}
+                <div class="article-card">
+                    <div class="article-content">
+                        <h2 class="article-title">{{ article.title }}</h2>
+                        
+                        {% if article.category %}
+                            <a href="{% url 'category_detail' slug=article.category.slug %}" 
+                               style="background: var(--accent); color: white; padding: 0.4rem 0.9rem; border-radius: 6px; font-size: 0.9rem; display: inline-block; margin-bottom: 0.8rem; text-decoration: none;">
+                                {{ article.category.name }}
+                            </a>
+                        {% endif %}
+                        
+                        <p class="article-date">Published: {{ article.pub_date|date:"d M Y" }}</p>
+                        <p class="article-excerpt">{{ article.content|striptags|truncatewords:40 }}</p>
+                        <a href="{% url 'article_detail' slug=article.slug %}?from_category={{ selected_category }}&from_search={{ search_query|urlencode }}" class="read-more">Read more →</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- No results state -->
+        <div style="text-align: center; padding: 5rem 1rem; background: var(--card); border-radius: 12px; border: 1px solid var(--border); max-width: 800px; margin: 0 auto;">
+            <h2 style="margin-bottom: 1rem; color: #ef4444;">Nothing found</h2>
+            
+            {% if search_query %}
+                <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: #94a3b8;">
+                    No articles match your search for <strong>"{{ search_query }}"</strong>.
+                </p>
+            {% elif selected_category %}
+                <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: #94a3b8;">
+                    No articles in the category <strong>"{{ selected_category|title }}"</strong> yet.
+                </p>
+            {% else %}
+                <p style="font-size: 1.1rem; margin-bottom: 1.5rem; color: #94a3b8;">
+                    No articles available at the moment — check back soon!
+                </p>
+            {% endif %}
+
+            <a href="{% url 'articles_list' %}" style="
+                display: inline-block;
+                padding: 0.9rem 2rem;
+                background: var(--accent);
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                border-radius: 8px;
+                transition: background 0.2s;
+            ">
+                ← Back to all articles
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

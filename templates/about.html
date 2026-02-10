@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}About SoftwareCA{% endblock %}
+
+{% block content %}
+    <div style="max-width: 900px; margin: 0 auto; padding: 4rem 1rem 6rem;">
+        <h1 style="text-align: center; margin-bottom: 2rem; color: var(--accent);">About SoftwareCA</h1>
+
+        <div style="font-size: 1.1rem; line-height: 1.8; color: #cbd5e1;">
+            <p>
+                Welcome to <strong>SoftwareCA</strong> — your go-to resource for honest, practical software recommendations with a Canadian perspective.
+            </p>
+
+            <p>
+                We are passionate about helping people (especially in Canada) discover the best <strong>free and budget-friendly software alternatives</strong>, open-source tools, productivity apps, security solutions, AI utilities, and more — without the usual hype or sponsored fluff.
+            </p>
+
+            <p>
+                Why Canada focus? Because many tools have different pricing, availability, taxes (GST/HST), regional restrictions, or privacy laws that matter here. We test and review with real Canadian users in mind.
+            </p>
+
+            <h2 style="margin: 3rem 0 1rem; color: var(--text);">Our mission</h2>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 1rem;">✓ Save you time and money by finding truly good free/open alternatives</li>
+                <li style="margin-bottom: 1rem;">✓ Give honest pros/cons — no fake reviews</li>
+                <li style="margin-bottom: 1rem;">✓ Focus on tools that work well in Canada (tax, privacy, speed, support)</li>
+                <li>✓ Keep everything simple, up-to-date and easy to understand</li>
+            </ul>
+
+            <h2 style="margin: 3rem 0 1rem; color: var(--text);">Who runs this site?</h2>
+            <p>
+                I'm Vanja — a software enthusiast from Manitoba. I work with tech daily, test dozens of tools, and love sharing what actually works (and what doesn't).  
+                You can find me on X: <a href="https://x.com/BurdaLesco" style="color: var(--accent);">@BurdaLesco</a>.
+            </p>
+
+            <p style="margin-top: 3rem; text-align: center; font-style: italic; color: #94a3b8;">
+                If you're tired of endless sponsored lists and want real recommendations — you're in the right place.
+            </p>
+
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="{% url 'articles_list' %}" style="
+                    display: inline-block;
+                    padding: 1rem 2.5rem;
+                    background: var(--accent);
+                    color: white;
+                    text-decoration: none;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    border-radius: 8px;
+                    transition: background 0.3s;
+                ">
+                    Explore Articles →
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

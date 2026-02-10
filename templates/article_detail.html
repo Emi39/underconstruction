@@ -13,5 +13,24 @@
         {{ article.content|safe }}
     </div>
 
-    <a href="{% url 'home' %}" class="back">← Back to all articles</a>
+    <div style="text-align: center; margin-top: 3rem;">
+    <!-- Back to all articles (clears filters) -->
+    <a href="{% url 'articles_list' %}" class="back" style="margin-right: 1rem;">
+        ← Back to all articles
+    </a>
+    
+    <!-- Back to filtered category (if category was selected) -->
+    {% if from_category %}
+        <a href="{% url 'articles_list' %}?category={{ from_category }}" class="back">
+            ← Back to {{ from_category|title }} category
+        </a>
+    {% endif %}
+    
+    <!-- Optional: Back to search results (if search was used) -->
+    {% if from_search %}
+        <a href="{% url 'articles_list' %}?q={{ from_search|urlencode }}" class="back" style="margin-left: 1rem;">
+            ← Back to search results for "{{ from_search }}"
+        </a>
+    {% endif %}
+</div>
 {% endblock %}
