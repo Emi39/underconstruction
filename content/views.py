@@ -3,8 +3,8 @@ from django.db.models import Q  # Correct import for search OR
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-
-from .models import Article, Category
+from .models import Article, Category, Comment, CommentLike, CommentReply
+from django.http import JsonResponse
 
 
 def home(request):
@@ -43,14 +43,61 @@ def articles_list(request):
 def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug, is_published=True)
     
-    # Get filters from query params (passed from articles list)
-    from_category = request.GET.get('from_category', '')
-    from_search = request.GET.get('from_search', '')
+    # Handle comment submission
+    if request.method == 'POST' and 'comment_submit' in request.POST:
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        text = request.POST.get('text')
+        
+        if name and text:
+            Comment.objects.create(
+                article=article,
+                name=name,
+                email=email or '',
+                text=text,
+                is_approved=False
+            )
+            messages.success(request, 'Comment submitted — awaiting approval.')
+        else:
+            messages.error(request, 'Name and comment required.')
+    
+    # Handle reply submission
+    if request.method == 'POST' and 'reply_submit' in request.POST:
+        comment_id = request.POST.get('comment_id')
+        name = request.POST.get('reply_name')
+        email = request.POST.get('reply_email')
+        text = request.POST.get('reply_text')
+        
+        if comment_id and name and text:
+            parent_comment = get_object_or_404(Comment, id=comment_id)
+            CommentReply.objects.create(
+                comment=parent_comment,
+                name=name,
+                email=email or '',
+                text=text,
+                is_approved=False
+            )
+            messages.success(request, 'Reply submitted — awaiting approval.')
+    
+    # Handle like (AJAX)
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        comment_id = request.POST.get('comment_id')
+        if comment_id:
+            comment = get_object_or_404(Comment, id=comment_id)
+            ip = request.META.get('REMOTE_ADDR')
+            # Check if already liked from this IP
+            if not CommentLike.objects.filter(comment=comment, ip_address=ip).exists():
+                CommentLike.objects.create(comment=comment, ip_address=ip)
+                return JsonResponse({'likes': comment.likes.count(), 'liked': True})
+            return JsonResponse({'likes': comment.likes.count(), 'liked': False})
+    
+    approved_comments = article.comments.filter(is_approved=True).order_by('created_at')
     
     context = {
         'article': article,
-        'from_category': from_category,
-        'from_search': from_search,
+        'comments': approved_comments,
+        'from_category': request.GET.get('from_category', ''),
+        'from_search': request.GET.get('from_search', ''),
     }
     return render(request, 'article_detail.html', context)
 
